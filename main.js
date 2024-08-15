@@ -23,35 +23,39 @@ const model = genAI.getGenerativeModel({
 const chat = model.startChat({
   history: [],
   generationConfig: {
-    maxOutputTokens: 100,
-    temperature: 0.5,
+    maxOutputTokens: 1000,
+    temperature: 0.8,
   }
 });
 
 form.onsubmit = async (ev) => {
   ev.preventDefault();
 
-  const prompt = promptInput.value;
-  
+  const prompt = promptInput.value.trim().toLowerCase();
   addChatBubble(prompt, 'user');
 
-  const loadingBubble = addChatBubble('Typing...', 'ai', true);
+  if (prompt.includes('siapa kamu') || prompt.includes('kamu siapa') || prompt.includes('siapa cerdaskara')) {
+    const responseText = "Saya adalah Cerdaskara, alat edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?";
+    addChatBubble(responseText, 'ai');
+  } else {
+    const loadingBubble = addChatBubble('Typing...', 'ai', true);
 
-  try {
-    const result = await chat.sendMessageStream(prompt);
+    try {
+      const result = await chat.sendMessageStream(prompt);
 
-    let buffer = [];
-    let md = new MarkdownIt();
-    for await (let response of result.stream) {
-      buffer.push(response.text());
+      let buffer = [];
+      let md = new MarkdownIt();
+      for await (let response of result.stream) {
+        buffer.push(response.text());
+      }
+
+      loadingBubble.innerHTML = md.render(buffer.join(''));
+      loadingBubble.classList.remove('normal', 'text-gray-100');
+
+    } catch (e) {
+      loadingBubble.innerHTML = '<hr>' + e;
+      loadingBubble.classList.remove('normal', 'text-gray-100');
     }
-
-    loadingBubble.innerHTML = md.render(buffer.join(''));
-    loadingBubble.classList.remove('italic', 'text-white'); // Hapus style loading
-
-  } catch (e) {
-    loadingBubble.innerHTML = '<hr>' + e;
-    loadingBubble.classList.remove('semi-bold', 'text-white');
   }
 
   promptInput.value = '';
@@ -62,8 +66,12 @@ function addChatBubble(text, sender, isLoading = false) {
   bubble.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
   
   const bubbleInner = document.createElement('div');
-  bubbleInner.classList.add('max-w-xs', 'px-4', 'py-2', 'rounded-lg', 'text-white', 'shadow-md');
+  bubbleInner.classList.add('px-4', 'py-2', 'break-words', 'rounded-lg', 'text-white', 'shadow-md', 'bubble-inner');
   bubbleInner.classList.add(sender === 'user' ? 'bg-blue-500' : 'bg-gray-500');
+
+  if (sender === 'ai') {
+    bubbleInner.classList.add('bubble-inner-ai');
+  }
   
   if (isLoading) {
     bubbleInner.classList.add('normal', 'text-gray-100');
