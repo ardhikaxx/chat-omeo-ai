@@ -63,22 +63,37 @@ form.onsubmit = async (ev) => {
 
 function addChatBubble(text, sender, isLoading = false) {
   const bubble = document.createElement('div');
-  bubble.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
+  bubble.classList.add('bubble', sender === 'user' ? 'bubble-user' : 'bubble-ai');
   
-  const bubbleInner = document.createElement('div');
-  bubbleInner.classList.add('px-4', 'py-2', 'break-words', 'rounded-lg', 'text-white', 'shadow-md', 'bubble-inner');
-  bubbleInner.classList.add(sender === 'user' ? 'bg-blue-500' : 'bg-gray-500');
-
-  if (sender === 'ai') {
-    bubbleInner.classList.add('bubble-inner-ai');
+  const iconContainer = document.createElement('div');
+  iconContainer.classList.add('icon-container');
+  
+  if (sender === 'user') {
+    const icon = document.createElement('i');
+    icon.classList.add('fa', 'fa-user');
+    iconContainer.appendChild(icon);
+  } else {
+    const img = document.createElement('img');
+    img.src = '/public/logo.png'; 
+    iconContainer.appendChild(img);
   }
+
+  const bubbleInner = document.createElement('div');
+  bubbleInner.classList.add('px-4', 'py-2', 'break-words', 'rounded-lg', 'shadow-md', 'bubble-inner');
   
+  if (sender === 'user') {
+    bubbleInner.classList.add('bg-blue-500', 'text-white'); 
+  } else {
+    bubbleInner.classList.add('bg-gray-200', 'text-gray-800');
+  }
+
   if (isLoading) {
-    bubbleInner.classList.add('normal', 'text-gray-100');
+    bubbleInner.classList.add('bg-gray-200', 'text-gray-800'); 
   }
 
   bubbleInner.innerHTML = text;
   
+  bubble.appendChild(iconContainer);
   bubble.appendChild(bubbleInner);
   chatOutput.appendChild(bubble);
 
@@ -86,5 +101,3 @@ function addChatBubble(text, sender, isLoading = false) {
 
   return bubbleInner;
 }
-
-maybeShowApiKeyBanner(API_KEY);
