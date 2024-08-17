@@ -33,12 +33,14 @@ form.onsubmit = async (ev) => {
 
   const prompt = promptInput.value.trim().toLowerCase();
   addChatBubble(prompt, 'user');
+  promptInput.value = '';
 
   if (prompt.includes('siapa kamu') || prompt.includes('kamu siapa') || prompt.includes('siapa cerdaskara')) {
-    const responseText = "Saya adalah Cerdaskara, alat edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?";
+    const responseText = "Saya adalah Cerdaskara, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?";
     addChatBubble(responseText, 'ai');
   } else {
     const loadingBubble = addChatBubble('Typing...', 'ai', true);
+    promptInput.value = '';
 
     try {
       const result = await chat.sendMessageStream(prompt);
@@ -57,8 +59,6 @@ form.onsubmit = async (ev) => {
       loadingBubble.classList.remove('normal', 'text-gray-100');
     }
   }
-
-  promptInput.value = '';
 };
 
 function addChatBubble(text, sender, isLoading = false) {

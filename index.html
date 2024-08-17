@@ -8,35 +8,35 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    .bubble-inner-ai {
+    .bubble-inner {
       word-wrap: break-word;
       word-break: break-word;
       white-space: pre-wrap;
     }
 
     .container-chat {
-      max-height: 520px;
+      max-height: 500px;
     }
   </style>
 </head>
 
-<body class="bg-gradient-to-r from-blue-50 to-blue-100">
-  <section class="flex items-center justify-center h-[100vh]">
-    <div class="bg-white shadow-2xl rounded-3xl max-w-xl w-full flex flex-col justify-between container-chat">
-      <div class="p-6 text-center">
-        <h1 class="text-2xl justify-center items-center font-extrabold text-gray-800">
+<body class="bg-gradient-to-r from-blue-50 to-blue-100 overflow-hidden">
+  <section class="flex items-center justify-center h-screen">
+    <div class="bg-white mt-0 shadow-2xl rounded-3xl w-full max-w-xl flex flex-col justify-between container-chat">
+      <div class="p-3 text-center">
+        <h1 class="text-3xl justify-center items-center font-extrabold text-gray-800">
           <span class="text-blue-500">CERDASKARA</span> AI
         </h1>
       </div>
-      <div class="p-4 space-y-2 max-h-96 flex-grow overflow-y-auto" id="chat-output">
+      <div class="p-4 space-y-4 flex-grow overflow-y-auto" id="chat-output">
       </div>
-      <form class="p-4 bg-gray-50 rounded-b-3xl">
+      <form class="p-4 rounded-b-3xl">
         <div class="flex space-x-2">
           <input name="prompt" placeholder="Tanyakan sesuatu..." type="text"
             class="flex-grow p-3 border border-gray-300 rounded-full focus:outline-none focus:ring focus:border-blue-300"
             required />
-          <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">
-            Kirim <i class="fa-regular fa-paper-plane"></i>
+          <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-full">
+            Kirim <i class="fa-regular fa-paper-plane fa-bounce"></i>
           </button>
         </div>
       </form>
