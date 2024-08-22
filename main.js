@@ -39,7 +39,7 @@ form.onsubmit = async (ev) => {
     const responseText = "Saya adalah Cerdaskara, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?";
     addChatBubble(responseText, 'ai');
   } else {
-    const loadingBubble = addChatBubble('Typing...', 'ai', true);
+    const loadingBubble = addChatBubble('Typing<i class="fa-solid fa-spinner fa-spin-pulse ml-2"></i>', 'ai', true);
     promptInput.value = '';
 
     try {
@@ -74,7 +74,7 @@ function addChatBubble(text, sender, isLoading = false) {
     iconContainer.appendChild(icon);
   } else {
     const img = document.createElement('img');
-    img.src = '/public/logo.png'; 
+    img.src = '/logo.png'; 
     iconContainer.appendChild(img);
   }
 
