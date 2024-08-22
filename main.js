@@ -73,9 +73,9 @@ function addChatBubble(text, sender, isLoading = false) {
     icon.classList.add('fa', 'fa-user');
     iconContainer.appendChild(icon);
   } else {
-    const img = document.createElement('img');
-    img.src = '/logo.png'; 
-    iconContainer.appendChild(img);
+    const icon = document.createElement('i');
+    icon.classList.add('fa', 'fa-comment-dots');
+    iconContainer.appendChild(icon);
   }
 
   const bubbleInner = document.createElement('div');
