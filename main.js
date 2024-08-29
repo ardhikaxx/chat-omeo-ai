@@ -1,6 +1,5 @@
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import MarkdownIt from 'markdown-it';
-import { maybeShowApiKeyBanner } from './gemini-api-banner';
 import './style.css';
 
 let API_KEY = 'AIzaSyBXWODYhZnSv1ggNfE73B6AiVfiMY50loU';
@@ -67,16 +66,6 @@ function addChatBubble(text, sender, isLoading = false) {
   
   const iconContainer = document.createElement('div');
   iconContainer.classList.add('icon-container');
-  
-  if (sender === 'user') {
-    const icon = document.createElement('i');
-    icon.classList.add('fa', 'fa-user');
-    iconContainer.appendChild(icon);
-  } else {
-    const icon = document.createElement('i');
-    icon.classList.add('fa', 'fa-comment-dots');
-    iconContainer.appendChild(icon);
-  }
 
   const bubbleInner = document.createElement('div');
   bubbleInner.classList.add('px-4', 'py-2', 'break-words', 'rounded-lg', 'shadow-md', 'bubble-inner');
