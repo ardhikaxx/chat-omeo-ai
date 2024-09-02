@@ -5,7 +5,7 @@ import './style.css';
 let API_KEY = 'AIzaSyBXWODYhZnSv1ggNfE73B6AiVfiMY50loU';
 
 let form = document.querySelector('form');
-let promptInput = document.querySelector('input[name="prompt"]');
+let promptTextarea = document.querySelector('textarea[name="prompt"]');
 let chatOutput = document.querySelector('#chat-output');
 
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -30,16 +30,16 @@ const chat = model.startChat({
 form.onsubmit = async (ev) => {
   ev.preventDefault();
 
-  const prompt = promptInput.value.trim().toLowerCase();
+  const prompt = promptTextarea.value.trim().toLowerCase();
   addChatBubble(prompt, 'user');
-  promptInput.value = '';
+  promptTextarea.value = '';
 
   if (prompt.includes('siapa kamu') || prompt.includes('kamu siapa') || prompt.includes('siapa cerdaskara')) {
     const responseText = "Saya adalah Cerdaskara, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?";
     addChatBubble(responseText, 'ai');
   } else {
     const loadingBubble = addChatBubble('Typing<i class="fa-solid fa-spinner fa-spin-pulse ml-2"></i>', 'ai', true);
-    promptInput.value = '';
+    promptTextarea.value = '';
 
     try {
       const result = await chat.sendMessageStream(prompt);

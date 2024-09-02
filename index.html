@@ -47,6 +47,7 @@
     @media (max-width: 640px) {
       .container-chat {
         max-height: 100vh;
+        width: 100%;
       }
 
       .bubble {
@@ -68,8 +69,8 @@
 </head>
 
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 overflow-hidden">
-  <section class="flex items-center justify-center h-screen px-2">
-    <div class="bg-white mt-0 shadow-2xl rounded-3xl w-full max-w-4xl flex flex-col justify-between container-chat">
+  <section class="flex items-center justify-center h-screen">
+    <div class="bg-white mt-0 shadow-2xl rounded-3xl w-full flex flex-col justify-between container-chat">
       <div class="p-4 text-center mt-2">
         <h1 class="text-2xl sm:text-3xl justify-center items-center font-extrabold text-gray-800">
           <img src="/logo.png" alt="Logo" class="inline h-8">
@@ -78,9 +79,9 @@
       </div>
       <div class="p-4 space-y-4 flex-grow overflow-y-auto" id="chat-output"></div>
       <form class="p-5 rounded-b-3xl flex items-center space-x-2">
-        <div class="relative flex-grow">
-          <input name="prompt" placeholder="Tanyakan sesuatu..." type="text" class="w-full p-2 border border-gray-300 focus:border-blue-300 rounded-lg pl-10" required />
-          <div id="file-icon" class="absolute left-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+        <div class="relative flex-grow justify-center items-center">
+          <textarea name="prompt" placeholder="Tanyakan sesuatu..." class="w-full p-2 border border-gray-300 focus:border-blue-300 rounded-lg pl-10 resize-none overflow-hidden" rows="1" required></textarea>
+          <div id="file-icon" class="absolute left-3 top-1/2 transform -translate-y-1/2 mb-2">
             <i class="fa-regular fa-comment-dots text-gray-500"></i>
           </div>
         </div>
@@ -90,6 +91,13 @@
   </section>
 
   <script type="module" src="./main.js"></script>
+  <script>
+    const textarea = document.querySelector('textarea[name="prompt"]');
+  textarea.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+  });
+  </script>
 </body>
 
 </html>
