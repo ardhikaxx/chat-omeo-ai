@@ -46,12 +46,16 @@ form.onsubmit = async (ev) => {
 
       let buffer = [];
       let md = new MarkdownIt();
+
       for await (let response of result.stream) {
         buffer.push(response.text());
       }
 
-      loadingBubble.innerHTML = md.render(buffer.join(''));
-      loadingBubble.classList.remove('normal', 'text-gray-100');
+      loadingBubble.innerHTML = '';
+
+      // Menampilkan teks secara bertahap (efek typing)
+      const fullResponse = buffer.join('');
+      typeResponse(loadingBubble, fullResponse, md);
 
     } catch (e) {
       loadingBubble.innerHTML = '<hr>' + e;
@@ -59,6 +63,15 @@ form.onsubmit = async (ev) => {
     }
   }
 };
+
+function typeResponse(element, text, md, index = 0) {
+  if (index < text.length) {
+    element.innerHTML = md.render(text.slice(0, index + 1));
+    setTimeout(() => typeResponse(element, text, md, index + 1), 25);
+  } else {
+    element.classList.remove('normal', 'text-gray-100');
+  }
+}
 
 function addChatBubble(text, sender, isLoading = false) {
   const bubble = document.createElement('div');
