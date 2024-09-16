@@ -27,6 +27,13 @@ const chat = model.startChat({
   }
 });
 
+const responses = [
+  "Saya adalah Cerdaskara, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?",
+  "Cerdaskara di sini! Saya siap membantu Anda dengan berbagai pertanyaan dan informasi yang Anda butuhkan.",
+  "Hai! Nama saya Cerdaskara, dan saya di sini untuk memandu Anda melalui berbagai topik. Ada yang bisa saya bantu?",
+  "Selamat datang! Saya Cerdaskara, asisten virtual Anda. Apakah Anda membutuhkan bantuan atau informasi tentang topik tertentu?"
+];
+
 form.onsubmit = async (ev) => {
   ev.preventDefault();
 
@@ -35,8 +42,9 @@ form.onsubmit = async (ev) => {
   promptTextarea.value = '';
 
   if (prompt.includes('siapa kamu') || prompt.includes('kamu siapa') || prompt.includes('siapa cerdaskara')) {
-    const responseText = "Saya adalah Cerdaskara, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?";
-    addChatBubble(responseText, 'ai');
+    const responseText = getRandomResponse();
+    const responseBubble = addChatBubble('', 'ai', true);
+    typeResponse(responseBubble, responseText);
   } else {
     const loadingBubble = addChatBubble('Typing<i class="fa-solid fa-spinner fa-spin-pulse ml-2"></i>', 'ai', true);
     promptTextarea.value = '';
@@ -64,9 +72,14 @@ form.onsubmit = async (ev) => {
   }
 };
 
+function getRandomResponse() {
+  const randomIndex = Math.floor(Math.random() * responses.length);
+  return responses[randomIndex];
+}
+
 function typeResponse(element, text, md, index = 0) {
   if (index < text.length) {
-    element.innerHTML = md.render(text.slice(0, index + 1));
+    element.innerHTML = md ? md.render(text.slice(0, index + 1)) : text.slice(0, index + 1);
     setTimeout(() => typeResponse(element, text, md, index + 1), 25);
   } else {
     element.classList.remove('normal', 'text-gray-100');
