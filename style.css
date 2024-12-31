@@ -1,66 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@font-face {
+  font-family: 'Neuropol';
+  src: url('./font/Neuropol.otf') format('truetype');
+}
+
 body {
-  margin: 24px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  --accent-color: #076EFF;
-  color: #202124;
+  font-family: 'Poppins', Arial, sans-serif;
+  background-color: #f4f4f9;
 }
 
-main,
-.api-key-banner {
-  width: 100%;
-  padding: 24px;
-  max-width: 460px;
-  margin: 0 auto;
-  border-radius: 20px;
+#chat-output::-webkit-scrollbar {
+  width: 8px;
 }
 
-.api-key-banner {
-  background-color: #FFDDB7;
-  font-weight: bold;
-  margin-bottom: 16px;
+#chat-output::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-.api-key-banner a {
-  color: var(--accent-color);
+#chat-output::-webkit-scrollbar-thumb {
+  background: #3B82F6;
+  border-radius: 3px;
 }
 
-* {
-  outline-color: var(--accent-color);
+#chat-output::-webkit-scrollbar-thumb:hover {
+  background: #3B82F6;
 }
+
 
 h1 {
+  font-family: 'Neuropol', Arial, sans-serif;
+}
+
+.bubble-inner {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.container-chat {
+  margin-top: -95px;
+  max-width: 700px;
+  max-height: 600px;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .bubble-inner {
+    max-width: 60%;
+  }
+}
+
+.bubble {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 auto;
-  font-size: 24px;
+  align-items: flex-start;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-
-input,
-button {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-family: unset;
-  font-size: 16px;
+.bubble-user {
+  flex-direction: row-reverse;
+  align-items: flex-end;
 }
 
-button {
-  border-color: var(--accent-color);
-  background-color: var(--accent-color);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  opacity: 1;
-}
+@media (max-width: 640px) {
+  .container-chat {
+    max-height: 100vh;
+    width: 100%;
+  }
 
-button:focus-visible {
-  outline: 2px solid white;
-  outline-offset: -4px;
-}
+  .bubble {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-button:hover {
-  opacity: 0.95;
+  .bubble-user {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+
+  .bubble-inner {
+    width: 100%;
+    max-width: none;
+  }
 }

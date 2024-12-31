@@ -4,99 +4,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" href="/logo.png" type="image/x-icon">
-  <title>Cerdaskara AI - Edukasi Interaktif</title>
+  <link rel="shortcut icon" href="/1.png" type="image/x-icon">
+  <title>Omeo AI - Edukasi Interaktif</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <style>
-    .bubble-inner {
-      word-wrap: break-word;
-      word-break: break-word;
-      white-space: pre-wrap;
-      max-width: 100%;
-      overflow-wrap: break-word;
-    }
-
-    .container-chat {
-      margin-top: -50px;
-      max-width: 650px;
-    }
-
-    @media (min-width: 1024px) {
-      .bubble-inner {
-        max-width: 60%;
-      }
-    }
-
-    .container-chat {
-      max-height: 500px;
-    }
-
-    .bubble {
-      display: flex;
-      align-items: flex-start;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .bubble-user {
-      flex-direction: row-reverse;
-      align-items: flex-end;
-    }
-
-    @media (max-width: 640px) {
-      .container-chat {
-        max-height: 100vh;
-        width: 100%;
-      }
-
-      .bubble {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .bubble-user {
-        flex-direction: column-reverse;
-        align-items: flex-end;
-      }
-
-      .bubble-inner {
-        width: 100%;
-        max-width: none;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 overflow-hidden">
+<body class="bg-gray-100 overflow-hidden">
   <section class="flex items-center justify-center h-screen">
-    <div class="bg-white mt-0 shadow-2xl rounded-3xl w-full flex flex-col justify-between container-chat">
-      <div class="p-4 text-center mt-2">
-        <h1 class="text-2xl sm:text-3xl justify-center items-center font-extrabold text-gray-800">
-          <img src="/logo.png" alt="Logo" class="inline h-8">
-          <span class="text-blue-500">ERDASKARA</span> AI
-        </h1>
+    <div class="w-full flex flex-col justify-center items-center container-chat">
+      <div class="text-center justify-center items-center flex flex-col mb-3">
+        <img src="/1.png" alt="Logo" id="bot-ai" class="h-32 sm:h-56 animate-float">
+        <h1 class="text-4xl sm:text-6xl font-extrabold text-gray-800 mb-2"><span class="text-blue-500">Omeo</span> AI</h1>
+        <p class="text-gray-600 text-sm sm:text-lg">Asisten Cerdas untuk Setiap Langkah Pendidikanmu</p>
       </div>
-      <div class="p-4 space-y-4 flex-grow overflow-y-auto" id="chat-output"></div>
-      <form class="p-5 rounded-b-3xl flex items-center space-x-2">
-        <div class="relative flex-grow justify-center items-center">
-          <textarea name="prompt" placeholder="Tanyakan sesuatu..." class="w-full p-2 border border-gray-300 focus:border-blue-300 rounded-lg pl-10 resize-none overflow-hidden" rows="1" required></textarea>
-          <div id="file-icon" class="absolute left-3 top-1/2 transform -translate-y-1/2 mb-2">
-            <i class="fa-regular fa-comment-dots text-gray-500"></i>
+      <div class="p-4 w-full max-h-96 space-y-4 flex-grow overflow-y-auto" id="chat-output"></div>
+      <div class="bg-white mt-0 shadow-2xl rounded-3xl w-full flex flex-col justify-between">
+        <form class="p-4 rounded-b-3xl flex items-center space-x-4" onsubmit="return handleSubmit(event)">
+          <div class="relative flex-grow">
+            <textarea id="prompt" name="prompt" placeholder="Tanyakan sesuatu..." 
+              class="w-full p-2 border border-gray-300 focus:border-blue-300 rounded-lg pl-10 resize-none h-full focus:ring-2 focus:ring-blue-400" 
+              rows="1" required></textarea>
+            <div id="file-icon" class="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <i class="fa-regular fa-comment-dots text-gray-500"></i>
+            </div>
           </div>
-        </div>
-        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg flex items-center">Kirim<i class="fa-regular fa-paper-plane fa-bounce ml-2"></i></button>
-      </form>
+          <button type="submit" 
+            class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg flex items-center">
+            Kirim<i class="fa-regular fa-paper-plane fa-bounce ml-2"></i>
+          </button>
+        </form>
+      </div>
     </div>
   </section>
 
   <script type="module" src="./main.js"></script>
   <script>
     const textarea = document.querySelector('textarea[name="prompt"]');
-  textarea.addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = this.scrollHeight + 'px';
-  });
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
   </script>
 </body>
 

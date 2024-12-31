@@ -7,6 +7,9 @@ let API_KEY = 'AIzaSyC_dQ5KNGDeZFTsZjJL-ZUOYPFR_NVQ39E';
 let form = document.querySelector('form');
 let promptTextarea = document.querySelector('textarea[name="prompt"]');
 let chatOutput = document.querySelector('#chat-output');
+let botImage = document.querySelector('#bot-ai');
+
+let imageInterval;
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({
@@ -28,10 +31,10 @@ const chat = model.startChat({
 });
 
 const responses = [
-  "Saya adalah Cerdaskara, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?",
-  "Cerdaskara di sini! Saya siap membantu Anda dengan berbagai pertanyaan dan informasi yang Anda butuhkan.",
-  "Hai! Nama saya Cerdaskara, dan saya di sini untuk memandu Anda melalui berbagai topik. Ada yang bisa saya bantu?",
-  "Selamat datang! Saya Cerdaskara, asisten virtual Anda. Apakah Anda membutuhkan bantuan atau informasi tentang topik tertentu?"
+  "Saya adalah Omeo, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi berbagai topik. Bagaimana saya bisa membantu Anda hari ini?",
+  "Omeo di sini! Saya siap membantu Anda dengan berbagai pertanyaan dan informasi yang Anda butuhkan.",
+  "Hai! Nama saya Omeo, dan saya di sini untuk memandu Anda melalui berbagai topik. Ada yang bisa saya bantu?",
+  "Selamat datang! Saya Omeo, asisten virtual Anda. Apakah Anda membutuhkan bantuan atau informasi tentang topik tertentu?"
 ];
 
 form.onsubmit = async (ev) => {
@@ -41,13 +44,24 @@ form.onsubmit = async (ev) => {
   addChatBubble(prompt, 'user');
   promptTextarea.value = '';
 
-  if (prompt.includes('siapa kamu') || prompt.includes('kamu siapa') || prompt.includes('siapa cerdaskara')) {
+  if (
+    prompt.includes('siapa yang membuat kamu') || 
+    prompt.includes('siapa yang menciptakan kamu') || 
+    prompt.includes('siapa yang mengembangkan kamu') || 
+    prompt.includes('siapa developer kamu')
+  ) {
+    const responseText = `Saya dibuat dan dilatih oleh Yanuar Ardhika Rahmadhani Ubaidillah. Untuk lebih mengenal, Anda dapat mengunjungi website portofolionya di: <a href="https://yanuar-ardhika.vercel.app/" target="_blank" class="text-blue-500 underline">https://yanuar-ardhika.vercel.app/</a>.`;
+    const responseBubble = addChatBubble('', 'ai', true);
+    toggleBotImage(true);
+    typeResponse(responseBubble, responseText, null, 0, () => toggleBotImage(false));
+  } else if (prompt.includes('siapa kamu') || prompt.includes('kamu siapa') || prompt.includes('siapa omeo')) {
     const responseText = getRandomResponse();
     const responseBubble = addChatBubble('', 'ai', true);
-    typeResponse(responseBubble, responseText);
+    toggleBotImage(true);
+    typeResponse(responseBubble, responseText, null, 0, () => toggleBotImage(false));
   } else {
     const loadingBubble = addChatBubble('Typing<i class="fa-solid fa-spinner fa-spin-pulse ml-2"></i>', 'ai', true);
-    promptTextarea.value = '';
+    toggleBotImage(true);
 
     try {
       const result = await chat.sendMessageStream(prompt);
@@ -61,13 +75,13 @@ form.onsubmit = async (ev) => {
 
       loadingBubble.innerHTML = '';
 
-      // Menampilkan teks secara bertahap (efek typing)
       const fullResponse = buffer.join('');
-      typeResponse(loadingBubble, fullResponse, md);
+      typeResponse(loadingBubble, fullResponse, md, 0, () => toggleBotImage(false)); // Kembali ke gambar awal
 
     } catch (e) {
       loadingBubble.innerHTML = '<hr>' + e;
       loadingBubble.classList.remove('normal', 'text-gray-100');
+      toggleBotImage(false);
     }
   }
 };
@@ -77,12 +91,13 @@ function getRandomResponse() {
   return responses[randomIndex];
 }
 
-function typeResponse(element, text, md, index = 0) {
+function typeResponse(element, text, md, index = 0, callback) {
   if (index < text.length) {
     element.innerHTML = md ? md.render(text.slice(0, index + 1)) : text.slice(0, index + 1);
-    setTimeout(() => typeResponse(element, text, md, index + 1), 25);
+    setTimeout(() => typeResponse(element, text, md, index + 1, callback), 25);
   } else {
     element.classList.remove('normal', 'text-gray-100');
+    if (callback) callback();
   }
 }
 
@@ -99,11 +114,11 @@ function addChatBubble(text, sender, isLoading = false) {
   if (sender === 'user') {
     bubbleInner.classList.add('bg-blue-500', 'text-white'); 
   } else {
-    bubbleInner.classList.add('bg-gray-200', 'text-gray-800');
+    bubbleInner.classList.add('bg-white', 'text-gray-800');
   }
 
   if (isLoading) {
-    bubbleInner.classList.add('bg-gray-200', 'text-gray-800'); 
+    bubbleInner.classList.add('bg-white', 'text-gray-800'); 
   }
 
   bubbleInner.innerHTML = text;
@@ -115,4 +130,16 @@ function addChatBubble(text, sender, isLoading = false) {
   chatOutput.scrollTop = chatOutput.scrollHeight;
 
   return bubbleInner;
+}
+
+function toggleBotImage(isTyping) {
+  if (isTyping) {
+    imageInterval = setInterval(() => {
+      const randomImage = Math.floor(Math.random() * 5) + 1;
+      botImage.src = `/${randomImage}.png`;
+    }, 500);
+  } else {
+    clearInterval(imageInterval);
+    botImage.src = '/1.png';
+  }
 }
